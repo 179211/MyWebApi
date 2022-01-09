@@ -26,3 +26,9 @@ DTO
 -Different Dto for diff version
 -Expose only set of attributes / Abstraction
 
+DTO Mapping
+-Add Packages 
+-Need to create ApiMappings Class
+-Update Startup Class
+-services.AddAutoMapper(typeof(ApiMappings));
+

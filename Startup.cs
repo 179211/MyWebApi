@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using MyWebApi.Data;
 using MyWebApi.Repository;
 using MyWebApi.Repository.IRepository;
+using AutoMapper;
+using MyWebApi.ApiMapper;
 
 namespace MyWebApi
 {
@@ -35,6 +37,7 @@ namespace MyWebApi
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
+            services.AddAutoMapper(typeof(ApiMappings));
 
             services.AddControllers();
 
