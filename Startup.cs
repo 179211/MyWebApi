@@ -16,6 +16,8 @@ using MyWebApi.Repository;
 using MyWebApi.Repository.IRepository;
 using AutoMapper;
 using MyWebApi.ApiMapper;
+using System.Reflection;
+using System.IO;
 
 namespace MyWebApi
 {
@@ -39,6 +41,19 @@ namespace MyWebApi
 
             services.AddAutoMapper(typeof(ApiMappings));
 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("WebApiDemoSpec", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title="Web API Demo",
+                    Version = "V1"
+                });
+
+                var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
+                options.IncludeXmlComments(xmlCommentFullPath);
+            });
+
             services.AddControllers();
 
         }
@@ -52,6 +67,12 @@ namespace MyWebApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options=> {
+                options.SwaggerEndpoint("/swagger/WebApiDemoSpec/swagger.json", "Web Api Demo");
+                options.RoutePrefix = "";
+            });
 
             app.UseRouting();
 

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyWebApi</name>
+    </assembly>
+    <members>
+        <member name="M:MyWebApi.Controllers.DepartmentController.GetDepartments">
+            <summary>
+            Get list of all departments 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MyWebApi.Controllers.DepartmentController.GetDepartment(System.Int32)">
+            <summary>
+            Get specific department with department id
+            </summary>
+            <param name="departmentId">The id of the department</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -21,7 +21,12 @@ namespace MyWebApi.ApiMapper
                 .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.dtCreated))
                 .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.dtUpdated))
                 .ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
+
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.dtCreated))
+                .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.dtUpdated))
+                .ReverseMap();
+
         }
     }
 }

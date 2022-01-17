@@ -13,6 +13,7 @@ namespace MyWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentRepository _departmentRepository;
@@ -24,7 +25,12 @@ namespace MyWebApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get list of all departments 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<DepartmentDto>))]
         public async Task<IActionResult> GetDepartments()
         {
             var objList = await _departmentRepository.GetDepartmentsAsync();
@@ -36,7 +42,14 @@ namespace MyWebApi.Controllers
             return Ok(objDto);
         }
 
+        /// <summary>
+        /// Get specific department with department id
+        /// </summary>
+        /// <param name="departmentId">The id of the department</param>
+        /// <returns></returns>
         [HttpGet("{departmentId:int}", Name = "GetDepartment")]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(DepartmentDto))]
         public IActionResult GetDepartment(int departmentId)
         {
             var obj = _departmentRepository.GetDepartment(departmentId);
@@ -50,6 +63,10 @@ namespace MyWebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(DepartmentDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult CreateDepartment([FromBody] DepartmentDto departmentDto)
         {
             if (departmentDto == null)
@@ -73,6 +90,9 @@ namespace MyWebApi.Controllers
         }
 
         [HttpPatch("{departmentId:int}", Name = "UpdateDepartment")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult UpdateDepartment(int departmentId, [FromBody] DepartmentDto departmentDto)
         {
             if (departmentDto == null || departmentId != departmentDto.Id)
@@ -93,6 +113,10 @@ namespace MyWebApi.Controllers
 
 
         [HttpDelete("{departmentId:int}", Name = "DeleteDepartment")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult DeleteDepartment(int departmentId)
         {
             if (!_departmentRepository.DepartmentExists(departmentId))
