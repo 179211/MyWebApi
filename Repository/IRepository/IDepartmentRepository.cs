@@ -8,7 +8,7 @@ namespace MyWebApi.Repository.IRepository
 {
     public interface IDepartmentRepository
     {
-        ICollection<Department> GetDepartments();
+        Task<ICollection<Department>> GetDepartmentsAsync();
         Department GetDepartment(int departmentId);
         bool DepartmentExists(string name);
         bool DepartmentExists(int id);
