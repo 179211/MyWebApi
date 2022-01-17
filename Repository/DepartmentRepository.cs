@@ -1,4 +1,5 @@
-﻿using MyWebApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MyWebApi.Data;
 using MyWebApi.Models;
 using MyWebApi.Repository.IRepository;
 using System;
@@ -34,9 +35,9 @@ namespace MyWebApi.Repository
             return _db.Departments.FirstOrDefault(a => a.Id == departmentId);
         }
 
-        public ICollection<Department> GetDepartments()
+        public async Task<ICollection<Department>> GetDepartmentsAsync()
         {
-            return _db.Departments.OrderBy(a => a.Name).ToList();
+            return await _db.Departments.OrderBy(a => a.Name).ToListAsync();
         }
 
         public bool DepartmentExists(string name)

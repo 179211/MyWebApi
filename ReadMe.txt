@@ -32,3 +32,9 @@ DTO Mapping
 -Update Startup Class
 -services.AddAutoMapper(typeof(ApiMappings));
 
+Home Work
+Other options for [FromBody]
+Possible return types of API
+
+
+

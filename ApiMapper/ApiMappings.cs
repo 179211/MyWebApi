@@ -12,7 +12,15 @@ namespace MyWebApi.ApiMapper
     {
         public ApiMappings()
         {
-            CreateMap<Department, DepartmentDto>().ReverseMap();
+            ShouldMapProperty = t => true;
+            
+            SourceMemberNamingConvention = new PascalCaseNamingConvention();
+            DestinationMemberNamingConvention = new PascalCaseNamingConvention();
+
+            CreateMap<Department, DepartmentDto>()
+                .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.dtCreated))
+                .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.dtUpdated))
+                .ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
         }
     }
