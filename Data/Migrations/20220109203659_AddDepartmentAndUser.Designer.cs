@@ -10,7 +10,7 @@ using MyWebApi.Data;
 namespace MyWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220109191258_AddDepartmentAndUser")]
+    [Migration("20220109203659_AddDepartmentAndUser")]
     partial class AddDepartmentAndUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace MyWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("MyWebApi.Models.User", b =>
