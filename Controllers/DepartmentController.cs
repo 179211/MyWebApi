@@ -11,7 +11,8 @@ using MyWebApi.Repository.IRepository;
 
 namespace MyWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class DepartmentController : ControllerBase
@@ -86,7 +87,10 @@ namespace MyWebApi.Controllers
                 ModelState.AddModelError("", $"Something went wrong when saving the record {departmentObj.Name}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetDepartment", new { departmentId = departmentObj.Id }, departmentObj);
+            return CreatedAtRoute("GetDepartment", new { 
+                Version = HttpContext.GetRequestedApiVersion().ToString(), 
+                departmentId = departmentObj.Id 
+            }, departmentObj);
         }
 
         [HttpPatch("{departmentId:int}", Name = "UpdateDepartment")]
@@ -136,6 +140,23 @@ namespace MyWebApi.Controllers
         }
 
 
+        /// <summary>
+        /// Get list of all departments 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        //[HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<DepartmentDto>))]
+        public async Task<IActionResult> GetDepartments2()
+        {
+            var objList = await _departmentRepository.GetDepartmentsAsync();
+            var objDto = new List<DepartmentDto>();
+            foreach (var obj in objList)
+            {
+                objDto.Add(_mapper.Map<DepartmentDto>(obj));
+            }
+            return Ok(objDto);
+        }
 
 
 

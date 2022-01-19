@@ -17,5 +17,11 @@
             <param name="departmentId">The id of the department</param>
             <returns></returns>
         </member>
+        <member name="M:MyWebApi.Controllers.DepartmentController.GetDepartments2">
+            <summary>
+            Get list of all departments 
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

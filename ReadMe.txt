@@ -57,3 +57,26 @@ Update All return types
 [ProducesResponseType(StatusCodes.Status404NotFound)]
 
 
+Versioning
+pack Microsoft.AspNetCore.Mvc.Versioning
+pack Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
+Add service
+AddApiVersioning, AddVersionedApiExplorer
+
+create class ConfigureSwaggerOptions
+move content of AddSwaggerGen to class 
+AddTransient of this class in start up
+Add IApiVersionDescriptionProvider provider in Configure
+Use for each loop 
+Update rout for controller     
+//[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+update CreatedAtRoute with version info - Version = HttpContext.GetRequestedApiVersion().ToString()
+
+Make sure to have Separate Action Verbs like two Get can cause routing problem 
+
+
+
+
+
+
