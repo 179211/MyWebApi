@@ -1,10 +1,15 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using MyWebApi.Data;
 using MyWebApi.Models;
 using MyWebApi.Repository.IRepository;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MyWebApi.Repository
@@ -43,6 +48,36 @@ namespace MyWebApi.Repository
             _db.SaveChanges();
             userObj.Password = "";
             return userObj;
+        }
+
+        public async Task<User> Authenticate(string username, string password)
+        {
+            var user = await _db.Users.SingleOrDefaultAsync(x => x.Username == username && x.Password == password);
+
+            //user not found
+            if (user == null)
+            {
+                return null;
+            }
+
+            //if user was found generate JWT Token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.JwtKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[] {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials
+                                (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+            user.Password = "";
+            return user;
         }
     }
 }

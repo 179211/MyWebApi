@@ -76,6 +76,23 @@ update CreatedAtRoute with version info - Version = HttpContext.GetRequestedApiV
 Make sure to have Separate Action Verbs like two Get can cause routing problem 
 
 
+Api Authentication
+
+Add User Model
+Migrate User
+Create User Repo
+Add not mapped Token in User and Dto
+Make sure Api is ur startup project
+Migrate - Add-Migration AddUserRole, Update-Database
+Create AppSettings config and class
+Add AppSettings Singleton
+install Microsoft.AspNetCore.Authentication.JwtBearer 3.*.* for net core 3
+Add cors and Authentication in Configure
+Update UserRepo to generate token 
+Add DI in UserRepo IOptions<AppSettings>
+Show Jwt.io with verifing by key
+
+
 
 
 

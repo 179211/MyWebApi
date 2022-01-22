@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,5 +17,9 @@ namespace MyWebApi.Models.DTO
         public byte[] Picture { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
+        [NotMapped]
+        public string Token { get; set; }
+        public string Role { get; set; }
+
     }
 }

@@ -18,7 +18,10 @@ namespace MyWebApi.Models
         public byte[] Picture { get; set; }
         public DateTime dtCreated { get; set; }
         public DateTime dtUpdated { get; set; }
-
+ 
+        [NotMapped]
+        public string Token { get; set; }
+        public string Role { get; set; }
 
         [Required]
         public int DepartmentId { get; set; }
