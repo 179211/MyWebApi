@@ -27,10 +27,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Admin</a>
+                            </li>
+                        }
 
                         @if (httpAcc.HttpContext.Session.GetString("JWToken") != null &&
-             httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
+httpAcc.HttpContext.Session.GetString("JWToken").ToString().Length > 0)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Department</a>

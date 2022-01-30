@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWeb.Models;
@@ -9,6 +10,8 @@ using MyWeb.Repository.IRepository;
 
 namespace MyWeb.Controllers
 {
+
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentRepository _depRepo;
@@ -39,6 +42,7 @@ namespace MyWeb.Controllers
             return View(obj);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: DepartmentController/Create
         public async Task<IActionResult> Upsert(int? id)
         {
