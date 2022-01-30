@@ -25,6 +25,11 @@ namespace MyWebApi.Repository
             _appSettings = appsettings.Value;
         }
 
+        public async Task<ICollection<Department>> GetDepartmentsAsync()
+        {
+            return await _db.Departments.OrderBy(a => a.Name).ToListAsync();
+        }
+
         public bool IsUniqueUser(string username)
         {
             var user = _db.Users.SingleOrDefault(x => x.Username == username);

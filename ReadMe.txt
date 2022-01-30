@@ -8,6 +8,7 @@ Status Code
 	300-399		Redirection
 	400-499		Client Error
 		400		Bad Request
+		401		Unauthorized
 		404		Not Found
 		409		Conflict
 	500-599		Serve Error

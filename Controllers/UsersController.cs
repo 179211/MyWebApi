@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApi.Models;
+using MyWebApi.Models.DTO;
 using MyWebApi.Repository.IRepository;
 
 namespace MyWebApi.Controllers
@@ -35,6 +36,19 @@ namespace MyWebApi.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
             }
             return Ok(user);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<User>))]
+        public async Task<IActionResult> GetUsers()
+        {
+            var objList = await _userRepository.GetDepartmentsAsync();
+            var objDto = new List<UserDto>();
+            foreach (var obj in objList)
+            {
+                objDto.Add(_mapper.Map<UserDto>(obj));
+            }
+            return Ok(objDto);
         }
 
 
