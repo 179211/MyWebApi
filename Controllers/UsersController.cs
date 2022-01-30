@@ -12,8 +12,11 @@ using MyWebApi.Repository.IRepository;
 
 namespace MyWebApi.Controllers
 {
+    [Authorize]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -25,9 +28,10 @@ namespace MyWebApi.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
         }
 
-       
+
+        [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] User model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateUserDto model)
         {
             var user = await _userRepository.Authenticate(model.Username, model.Password);
             if (user == null)
@@ -37,6 +41,7 @@ namespace MyWebApi.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<User>))]
         public async Task<IActionResult> GetUsers()

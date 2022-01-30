@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApi.Models;
@@ -11,10 +12,12 @@ using MyWebApi.Repository.IRepository;
 
 namespace MyWebApi.Controllers
 {
+    [Authorize]
     [Route("api/v{version:apiVersion}/[controller]")]
     //[Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentRepository _departmentRepository;
