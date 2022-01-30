@@ -8,7 +8,7 @@ namespace MyWebApi.Repository.IRepository
 {
     public interface IUserRepository
     {
-        Task<ICollection<Department>> GetDepartmentsAsync();
+        Task<ICollection<User>> GetUsersAsync();
         bool IsUniqueUser(string username);
         User Register(string username, string password);
         Task<User> Authenticate(string username, string password);

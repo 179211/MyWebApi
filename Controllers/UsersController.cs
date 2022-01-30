@@ -12,7 +12,6 @@ using MyWebApi.Repository.IRepository;
 
 namespace MyWebApi.Controllers
 {
-    [Authorize]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -26,7 +25,7 @@ namespace MyWebApi.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
         }
 
-        [AllowAnonymous]
+       
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] User model)
         {
@@ -42,7 +41,7 @@ namespace MyWebApi.Controllers
         [ProducesResponseType(200, Type = typeof(List<User>))]
         public async Task<IActionResult> GetUsers()
         {
-            var objList = await _userRepository.GetDepartmentsAsync();
+            var objList = await _userRepository.GetUsersAsync();
             var objDto = new List<UserDto>();
             foreach (var obj in objList)
             {
