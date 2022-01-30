@@ -10,6 +10,7 @@ namespace MyWeb
         public static string ApiBaseUrl = "https://localhost:44306/";
         public static string ApiDepartment = ApiBaseUrl + "api/v1/Department";
         public static string ApiWeather = ApiBaseUrl + "api/v2/WeatherForecast";
+        public static string ApiUser = ApiBaseUrl + "api/v1/Users/";
 
     }
 }

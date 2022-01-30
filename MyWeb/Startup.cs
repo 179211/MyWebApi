@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +39,19 @@ namespace MyWeb
                 AllowTrailingCommas = true,
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
+
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
 
         }
@@ -60,6 +74,8 @@ namespace MyWeb
 
             app.UseRouting();
 
+            app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -18,16 +18,20 @@ namespace MyWeb.Controllers
             _depRepo = depRepo;
         }
 
+        private string getToken() {
+            return HttpContext.Session.GetString("JWToken");
+        }
+
         // GET: DepartmentController
         public async Task<IActionResult> Index()
         {
-           return View(await _depRepo.GetAllAsync(Constants.ApiDepartment, null));
+           return View(await _depRepo.GetAllAsync(Constants.ApiDepartment, getToken()));
         }
 
         // GET: DepartmentController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var obj = await _depRepo.GetAsync(Constants.ApiDepartment, id, null);
+            var obj = await _depRepo.GetAsync(Constants.ApiDepartment, id, getToken());
             if (obj == null)
             {
                 return NotFound();
@@ -47,7 +51,7 @@ namespace MyWeb.Controllers
             }
 
             //Flow will come here for update
-            obj = await _depRepo.GetAsync(Constants.ApiDepartment, id??0, null);
+            obj = await _depRepo.GetAsync(Constants.ApiDepartment, id??0, getToken());
             if (obj == null)
             {
                 return NotFound();
@@ -64,11 +68,11 @@ namespace MyWeb.Controllers
             {
                 if (obj.Id == 0)
                 {
-                    await _depRepo.CreateAsync(Constants.ApiDepartment, obj, null);
+                    await _depRepo.CreateAsync(Constants.ApiDepartment, obj, getToken());
                 }
                 else
                 {
-                    await _depRepo.UpdateAsync(Constants.ApiDepartment + "/" + obj.Id, obj, null);
+                    await _depRepo.UpdateAsync(Constants.ApiDepartment + "/" + obj.Id, obj, getToken());
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -81,7 +85,7 @@ namespace MyWeb.Controllers
         // GET: DepartmentController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var obj = await _depRepo.GetAsync(Constants.ApiDepartment, id, null);
+            var obj = await _depRepo.GetAsync(Constants.ApiDepartment, id, getToken());
             if (obj == null)
             {
                 return NotFound();
@@ -98,7 +102,7 @@ namespace MyWeb.Controllers
             {
                 if (id == obj.Id)
                 {
-                    await _depRepo.DeleteAsync(Constants.ApiDepartment, id, null);
+                    await _depRepo.DeleteAsync(Constants.ApiDepartment, id, getToken());
                 }
                 else {
                     return NotFound();
